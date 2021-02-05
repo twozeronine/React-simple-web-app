@@ -12,7 +12,7 @@ class App extends Component {
     super(props);
     this.max_content_id = 3;
     this.state = {
-      mode: "welcome",
+      mode: "read",
       selected_content_id: 2,
       subject: { title: "WEB", sub: "World Wide Web!" },
       welcome: { title: "Welcome", desc: "Hello, React!!" },
@@ -41,10 +41,7 @@ class App extends Component {
     } else if (this.state.mode === "read") {
       let _content = this.getReadContent();
       _article = (
-        <ReadContent
-          title={_content._title}
-          desc={_content._desc}
-        ></ReadContent>
+        <ReadContent title={_content.title} desc={_content.desc}></ReadContent>
       );
     } else if (this.state.mode === "create") {
       _article = (
@@ -73,15 +70,28 @@ class App extends Component {
           data={_content}
           onSubmit={function (_id, _title, _desc) {
             let _contents = Array.from(this.state.contents);
-            let data = _contents.find((element) => element.id === _id);
+            for (let i = 0; i < _contents.length; i++) {
+              if (_contents[i].id === _id) {
+                _contents[i] = { id: _id, title: _title, desc: _desc };
+                break;
+              }
+            }
+            // _contents.forEach((element) => {
+            //   if (element.id === _id) {
+            //     console.log(element, "찾음");
+            //     element = { id: _id, title: _title, desc: _desc };
+            //   }
+            // });
+            console.log(_contents);
             this.setState({
-              contents: data,
-              mode: "read ",
+              contents: _contents,
+              mode: "read",
             });
           }.bind(this)}
         ></UpdateContent>
       );
     }
+    console.log(_article);
     return _article;
   }
 
