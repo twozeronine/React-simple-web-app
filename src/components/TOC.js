@@ -1,10 +1,14 @@
 import React, { Component } from "react";
 
 class TOC extends Component {
+  shouldComponentUpdate(newProps, newState) {
+    return !(this.props.data === newProps.data);
+  }
+
   render() {
+    console.log("TOC render");
     const lists = [];
     let data = this.props.data;
-
     for (let i = 0; i < data.length; i++) {
       lists.push(
         <li key={data[i].id}>
