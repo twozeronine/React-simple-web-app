@@ -6,7 +6,6 @@ class TOC extends Component {
   }
 
   render() {
-    console.log("TOC render");
     const lists = [];
     let data = this.props.data;
     for (let i = 0; i < data.length; i++) {

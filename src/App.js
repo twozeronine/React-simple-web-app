@@ -12,7 +12,7 @@ class App extends Component {
     super(props);
     this.max_content_id = 3;
     this.state = {
-      mode: "read",
+      mode: "welcome",
       selected_content_id: 2,
       subject: { title: "WEB", sub: "World Wide Web!" },
       welcome: { title: "Welcome", desc: "Hello, React!!" },
@@ -91,7 +91,6 @@ class App extends Component {
         ></UpdateContent>
       );
     }
-    console.log(_article);
     return _article;
   }
 
@@ -113,9 +112,28 @@ class App extends Component {
         ></TOC>
         <Control
           onChangeMode={function (_mode) {
-            this.setState({
-              mode: _mode,
-            });
+            if (_mode === "delete") {
+              if (window.confirm("really?")) {
+                let _contents = Array.from(this.state.contents);
+                for (let i = 0; i < this.state.contents.length; i++) {
+                  if (_contents[i].id === this.state.selected_content_id) {
+                    _contents.splice(i, 1);
+                    break;
+                  }
+                }
+                console.log(this.state.mode);
+                this.setState({
+                  mode: "welcome",
+                  contents: _contents,
+                });
+                console.log(this.state.mode);
+                alert("deleted!");
+              }
+            } else {
+              this.setState({
+                mode: _mode,
+              });
+            }
           }.bind(this)}
         ></Control>
         {this.getContent()}
